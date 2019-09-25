@@ -6,15 +6,10 @@ import { Switch, Route } from 'react-router-dom'
 import Login from './components/Login'
 import Navbar from './components/Navbar'
 import Register from './components/Register'
-import { getTheme } from './services/API_calls'
+import Home from "./components/Home";
 import MainContainer from './containers/MainContainer';
 
 class App extends Component {
-
-  componentDidMount () {
-    console.log(getTheme('pokemon'))
-
-  }
 
   render () {
     return (
@@ -23,7 +18,9 @@ class App extends Component {
         <Switch>
           <Route exact path="/login" component={Login} />
           <Route exact path='/register' component={Register} />
-          <Route exact path='/' component={MainContainer} />
+          <Route exact path='/game' component={MainContainer} />
+          <Route exact path='/home' component={Home} />
+          <Route exact path='/' component={Home} />
         </Switch>
       </div>
     );
