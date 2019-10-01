@@ -4,6 +4,10 @@ import { connect } from 'react-redux'
 
 class Home extends Component {
 
+  hitBigButton() {
+    console.log('I hit the big button!')
+  }
+
     render () {
         return (
             <Segment style={{ padding: '8em 0em' }} vertical>
@@ -31,7 +35,7 @@ class Home extends Component {
               </Grid.Row>
               <Grid.Row>
                 <Grid.Column textAlign='center'>
-                  <Button size='huge'>Click here to start flipping! <Icon name="smile" /></Button>
+                  <Button size='huge' onClick={this.hitBigButton}>Click here to start flipping! <Icon name="smile" /></Button>
                 </Grid.Column>
               </Grid.Row>
             </Grid>
