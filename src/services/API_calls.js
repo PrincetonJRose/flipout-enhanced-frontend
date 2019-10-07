@@ -15,3 +15,20 @@ export function getTheme(theme) {
         return addMatched
     })
 }
+
+export function userLogin(info) {
+    return fetch(mainUrl + `login`, {
+        method: 'POST',
+        header: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+        },
+        body: JSON.stringify(info)
+    })
+    .then(res => res.json())
+}
+
+export function getUser(id) {
+    return fetch(mainUrl + `users/${id}`)
+        .then(res => res.json())
+}

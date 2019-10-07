@@ -1,8 +1,16 @@
-export default (state = { decks: [], gameDeck: [], themes: [], turnOver: 0, numColumns: 4, numRows: 4, cardTotal: 16, compare: [], theme: 'pokemon', cardBacks: {}, themeDeck: [] }, action) => {
+export default (state = { decks: [], gameDeck: [], themes: [], turnOver: 0, numColumns: null, numRows: null, cardTotal: 16, compare: [], theme: 'pokemon', cardBacks: {}, themeDeck: [] }, action) => {
     switch (action.type) {
         case 'SET_THEME': {
             return {
                 ...state, themeDeck: action.themeData
+            }
+        }
+        case 'SET_BOARD_SIZE': {
+            let lastIndex = action.boardSize.length-1
+            return {
+                ...state,
+                numRows: action.boardSize[0],
+                numColumns: action.boardSize[lastIndex],
             }
         }
         default: return state

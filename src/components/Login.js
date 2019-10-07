@@ -3,46 +3,39 @@ import { Button, Form, Grid, Header, Image, Message, Segment } from 'semantic-ui
 import { Link, Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import jwt_decode from 'jwt-decode'
+import { userLogin, getUser } from '../services/API_calls'
 
 class Login extends Component {
 
     constructor() {
         super()
         this.state = {
-            email: '',
+            username: '',
             password: '',
             errors: [],
             loading: false
         }
     }
 
-    // handleSubmit =(e)=> {
-    //     e.preventDefault()
-    //     fetch("https://cocktail-rater-api.herokuapp.com/login", {
-    //         method: "POST",
-    //         headers: {
-    //         "Content-Type": "application/json",
-    //         },
-    //         body: JSON.stringify(this.state)
-    //     })
-    //     .then(res => res.json())
-    //     .then(data => {
-    //         if (data.errors) {
-    //             this.setState({ errors: data.errors, loading: false })
-    //         } else {
-    //             getUser(jwt_decode(data.jwt_user).user_id).then( userData => {
-    //                 localStorage.setItem("jwt_user", data.jwt_user)
-    //                 this.props.dispatch({ type: "SET_AUTH" })
-    //                 this.props.dispatch({ type: "SET_USER", user: userData })
-    //                 this.props.history.push(`/user_profile/${this.props.jwt_user}`)
-    //             })
-    //         }
-    //     })
-    //     e.target.reset()
-    // }
+    handleSubmit =(e)=> {
+        e.preventDefault()
+        
+        userLogin()
+        .then(data => {
+            if (data.errors) {
+                this.setState({ errors: data.errors, loading: false })
+            } else {
+                getUser(jwt_decode(data.jwt_token).user_id).then( userData => {
+                    localStorage.setItem("jwt_token", data.jwt_token)
+                    this.props.dispatch({ type: "SET_USER", user: userData })
+                })
+            }
+        })
+        e.target.reset()
+    }
 
     render() {
-        if (this.props.jwt_user) {
+        if (this.props.currentUser) {
             return <Redirect to="/home"/>
         }
         return (
@@ -54,7 +47,7 @@ class Login extends Component {
                     </Header>
                     <Form size='large'>
                         <Segment stacked>
-                            <Form.Input fluid icon='user' iconPosition='left' placeholder='E-mail address'
+                            <Form.Input fluid icon='user' iconPosition='left' placeholder='Username'
                             required />
                             <Form.Input
                             fluid

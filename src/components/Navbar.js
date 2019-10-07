@@ -7,7 +7,7 @@ class Navbar extends Component {
     state = {}
 
 
-    handleChange = (e, { value, cardBack }) => this.setState({ value, cardBack })
+    handleChange = (e, { value, cardBack }) => this.setState({ value, cardBack }, console.log(this.state.value))
 
     render () {
         const { value, cardBack } = this.state
@@ -23,25 +23,27 @@ class Navbar extends Component {
                 <Image wrapped size='medium' src='https://i.pinimg.com/originals/25/57/36/25573650a72e7232ac940c18a5b7cb5e.png' />
                 <Modal.Description>
                   <Header>Select A Board Size</Header>
-                  <Form onSubmit={() => this.props.newGame(this.state.value, this.state.cardBack)}>
+                  <Form onSubmit={
+                    ()=> this.props.dispatch({ type: 'SET_BOARD_SIZE', boardSize: this.state.value })
+                  }>
                     <Form.Group inline>
                       <label>Size:</label>
                       <Form.Radio
                         label='4x4'
-                        value='sm'
-                        checked={value === 'sm'}
+                        value={'4x4'}
+                        checked={value === '4x4'}
                         onChange={this.handleChange}
                       />
                       <Form.Radio
                         label='4x5'
-                        value='md'
-                        checked={value === 'md'}
+                        value='4x5'
+                        checked={value === '4x5'}
                         onChange={this.handleChange}
                       />
                       <Form.Radio
                         label='4x6'
-                        value='lg'
-                        checked={value === 'lg'}
+                        value='4x6'
+                        checked={value === '4x6'}
                         onChange={this.handleChange}
                       />
                     </Form.Group>
@@ -69,7 +71,7 @@ class Navbar extends Component {
             <Icon name='chart line' />
             <br></br>
             <Modal id='newGameModal' trigger={<Button basic color='orange'>Statistics</Button>} centered={false} closeIcon>
-              <Modal.Header>{this.props.currentUser ?`${this.props.currentUser.username}'s` : <div>No User</div>} Statistics</Modal.Header>
+              <Modal.Header>{this.props.currentUser ?`${this.props.currentUser.username}'s Statistics` : <div>No User</div>}</Modal.Header>
               <Modal.Content image>
                 <Image wrapped size='medium' src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSvwG149uDub3muJZQGjqtenTmPqp0hM0GMgokFB6t-8jI5tQFDFQ' />
                 <Table basic='very' celled collapsing>
@@ -89,7 +91,7 @@ class Navbar extends Component {
                           </Header.Content>
                         </Header>
                       </Table.Cell>
-                      <Table.Cell>{this.props.currentUser ?this.props.currentUser.user_stats[3].score : <div>No User</div>}</Table.Cell>
+                      <Table.Cell>{this.props.currentUser ? this.props.currentUser.user_stats[3].score : <div>No User</div>}</Table.Cell>
                     </Table.Row>
                     <Table.Row>
                       <Table.Cell>
@@ -100,7 +102,7 @@ class Navbar extends Component {
                           </Header.Content>
                         </Header>
                       </Table.Cell>
-                      <Table.Cell>{this.props.currentUser ?this.props.currentUser.user_stats[0].score : <div>No User</div>}</Table.Cell>
+                      <Table.Cell>{this.props.currentUser ? this.props.currentUser.user_stats[0].score : <div>No User</div>}</Table.Cell>
                     </Table.Row>
                     <Table.Row>
                       <Table.Cell>
@@ -111,7 +113,7 @@ class Navbar extends Component {
                           </Header.Content>
                         </Header>
                       </Table.Cell>
-                      <Table.Cell>{this.props.currentUser ?this.props.currentUser.user_stats[1].score : <div>No User</div>}</Table.Cell>
+                      <Table.Cell>{this.props.currentUser ? this.props.currentUser.user_stats[1].score : <div>No User</div>}</Table.Cell>
                     </Table.Row>
                   </Table.Body>
                 </Table>
@@ -123,10 +125,10 @@ class Navbar extends Component {
             <Icon name='power off' />
             <br></br>
             {
-                this.props.currentUser ?
-                    <Button onClick={this.props.logout} basic color='blue'>Log Out</Button>
-                :
-                    <Button onClick={null} basic color='blue'>Log In</Button>
+              this.props.currentUser ?
+                <Button onClick={this.props.logout} basic color='blue'>Log Out</Button>
+              :
+                <Button onClick={null} basic color='blue'>Log In</Button>
             }
           </Menu.Item>
         </Menu>
@@ -135,4 +137,10 @@ class Navbar extends Component {
     }
 }
 
-export default connect()(Navbar)
+let mapStateToProps =(state)=> {
+  return {
+    currentUser: state.users.user,
+  }
+}
+
+export default connect(mapStateToProps)(Navbar)

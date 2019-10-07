@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Button, Form, Grid, Header, Image, Message, Segment, Container, Icon } from 'semantic-ui-react'
 import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
 
 class Home extends Component {
 
@@ -18,7 +19,7 @@ class Home extends Component {
                     Welcome to Flipout! ^_^
                   </Header>
                   <p style={{ fontSize: '1.33em' }}>
-                      The pokemon are hiding and will only leave with their partners which you have to find as quickly as possible! Do you have what it takes to flip them all?
+                      The pokemon are hiding and will only leave with their partners. Its your job to find and reunite them as quickly as possible! Do you have what it takes to catch them all?
                   </p>
                   {/* <Header as='h3' style={{ fontSize: '2em' }}>
                     I Make Bananas That Can Dance
@@ -35,7 +36,11 @@ class Home extends Component {
               </Grid.Row>
               <Grid.Row>
                 <Grid.Column textAlign='center'>
-                  <Button size='huge' onClick={this.hitBigButton}>Click here to start flipping! <Icon name="smile" /></Button>
+                  { this.props.currentUser ? 
+                      null
+                      :
+                      <Link to='/login'><Button size='huge' onClick={this.hitBigButton}>Click here to start flipping! <Icon name="smile" /></Button></Link>
+                  }
                 </Grid.Column>
               </Grid.Row>
             </Grid>
@@ -44,5 +49,10 @@ class Home extends Component {
     }
 }
 
+let mapStateToProps =(state)=> {
+  return {
+    currentUser: state.users.user,
+  }
+}
 
-export default connect()(Home)
+export default connect(mapStateToProps)(Home)
