@@ -6,6 +6,7 @@ export default (state = { decks: [], gameDeck: [], themes: [], turnOver: 0, numC
             }
         }
         case 'SET_BOARD_SIZE': {
+            // get string with board size, then take the first and last items which should be #'s
             let lastIndex = action.boardSize.length-1
             return {
                 ...state,
