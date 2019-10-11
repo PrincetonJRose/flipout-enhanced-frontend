@@ -1,13 +1,24 @@
 import React, { Component } from 'react'
 import { Icon, Menu, Grid, Modal, Button, Header, Image, Form, Table } from 'semantic-ui-react'
 import { connect } from 'react-redux'
-import { Link, Redirect } from 'react-router-dom'
+import { Link, Redirect, withRouter } from 'react-router-dom'
 
 class Navbar extends Component {
-    state = {}
+    state = {
+      value: '4x4',
+      newGameOpen: false,
+      redirect: false,
+    }
 
 
-    handleChange = (e, { value, cardBack }) => this.setState({ value, cardBack }, console.log(this.state.value))
+    selectBoardSize = (e, { value, cardBack }) => {
+      this.setState({ value, cardBack })
+      this.props.dispatch({ type: 'SET_BOARD_SIZE', boardSize: value })
+    }
+
+    redirectToLogin =()=> {
+      this.setState({ redirect: true })
+    }
 
     render () {
         const { value, cardBack } = this.state
@@ -17,14 +28,17 @@ class Navbar extends Component {
           <Menu.Item name='flag checkered'>
             <Icon name='flag checkered' />
             <br></br>
-            <Modal id='newGameModal' trigger={<Button basic color='green'>New Game</Button>} centered={false} closeIcon>
+            <Modal id='newGameModal' trigger={<Button basic color='green' onClick={()=> this.setState({ newGameOpen: true }) }>New Game</Button>} centered={false} closeIcon open={this.state.newGameOpen} onClose={ ()=> this.setState({ newGameOpen: false }) } >
               <Modal.Header>Create A New Game</Modal.Header>
               <Modal.Content image>
                 <Image wrapped size='medium' src='https://i.pinimg.com/originals/25/57/36/25573650a72e7232ac940c18a5b7cb5e.png' />
                 <Modal.Description>
                   <Header>Select A Board Size</Header>
                   <Form onSubmit={
-                    ()=> this.props.dispatch({ type: 'SET_BOARD_SIZE', boardSize: this.state.value })
+                    ()=> {
+                      this.props.dispatch({ type: 'SET_BOARD_SIZE', boardSize: this.state.value })
+                      return <Redirect to='/game'/>
+                    }
                   }>
                     <Form.Group inline>
                       <label>Size:</label>
@@ -32,19 +46,19 @@ class Navbar extends Component {
                         label='4x4'
                         value={'4x4'}
                         checked={value === '4x4'}
-                        onChange={this.handleChange}
+                        onChange={this.selectBoardSize}
                       />
                       <Form.Radio
                         label='4x5'
                         value='4x5'
                         checked={value === '4x5'}
-                        onChange={this.handleChange}
+                        onChange={this.selectBoardSize}
                       />
                       <Form.Radio
                         label='4x6'
                         value='4x6'
                         checked={value === '4x6'}
-                        onChange={this.handleChange}
+                        onChange={this.selectBoardSize}
                       />
                     </Form.Group>
                     {/* <Form.Group inline>
@@ -55,12 +69,12 @@ class Navbar extends Component {
                             label={cardPic}
                             value={cardPic}
                             checked={value === cardPic
-                            onChange={this.handleChange}
+                            onChange={this.selectBoardSize}
                           />
                         )
                       })}
                     </Form.Group> */}
-                    <Form.Button type='submit'>Create Game!</Form.Button>
+                    <Link to='/game'><Form.Button type='submit' onClick={ ()=> this.setState({ newGameOpen: false }) }>Create Game!</Form.Button></Link>
                   </Form>
                 </Modal.Description>
               </Modal.Content>
@@ -91,7 +105,7 @@ class Navbar extends Component {
                           </Header.Content>
                         </Header>
                       </Table.Cell>
-                      <Table.Cell>{this.props.currentUser ? this.props.currentUser.user_stats[3].score : <div>No User</div>}</Table.Cell>
+                      <Table.Cell>{this.props.currentUser ? this.props.currentUser.games_played : <div>No User</div>}</Table.Cell>
                     </Table.Row>
                     <Table.Row>
                       <Table.Cell>
@@ -102,7 +116,7 @@ class Navbar extends Component {
                           </Header.Content>
                         </Header>
                       </Table.Cell>
-                      <Table.Cell>{this.props.currentUser ? this.props.currentUser.user_stats[0].score : <div>No User</div>}</Table.Cell>
+                      <Table.Cell>{this.props.currentUser ? this.props.currentUser.fewest_misses : <div>No User</div>}</Table.Cell>
                     </Table.Row>
                     <Table.Row>
                       <Table.Cell>
@@ -113,7 +127,7 @@ class Navbar extends Component {
                           </Header.Content>
                         </Header>
                       </Table.Cell>
-                      <Table.Cell>{this.props.currentUser ? this.props.currentUser.user_stats[1].score : <div>No User</div>}</Table.Cell>
+                      <Table.Cell>{this.props.currentUser ? this.props.currentUser.best_combo : <div>No User</div>}</Table.Cell>
                     </Table.Row>
                   </Table.Body>
                 </Table>
@@ -128,7 +142,7 @@ class Navbar extends Component {
               this.props.currentUser ?
                 <Button onClick={this.props.logout} basic color='blue'>Log Out</Button>
               :
-                <Button onClick={null} basic color='blue'>Log In</Button>
+                <Button onClick={ ()=> this.props.history.push(`/login`) } basic color='blue'>Log In</Button>
             }
           </Menu.Item>
         </Menu>

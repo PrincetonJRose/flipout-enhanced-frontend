@@ -1,4 +1,4 @@
-export default (state = { decks: [], gameDeck: [], themes: [], turnOver: 0, numColumns: null, numRows: null, cardTotal: 16, compare: [], theme: 'pokemon', cardBacks: {}, themeDeck: [] }, action) => {
+export default (state = { decks: [], gameDeck: [], themes: [], turnOver: 0, numColumns: 4, numRows: 4, cardTotal: 16, compare: [], theme: 'pokemon', cardBacks: {}, themeDeck: [] }, action) => {
     switch (action.type) {
         case 'SET_THEME': {
             return {
@@ -7,11 +7,14 @@ export default (state = { decks: [], gameDeck: [], themes: [], turnOver: 0, numC
         }
         case 'SET_BOARD_SIZE': {
             // get string with board size, then take the first and last items which should be #'s
-            let lastIndex = action.boardSize.length-1
+            let size = action.boardSize
+            if (!size)
+                size = '4x4'
+            let lastIndex = size.length-1
             return {
                 ...state,
-                numRows: action.boardSize[0],
-                numColumns: action.boardSize[lastIndex],
+                numRows: size[0],
+                numColumns: size[lastIndex],
             }
         }
         default: return state
