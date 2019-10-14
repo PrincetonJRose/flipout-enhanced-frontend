@@ -9,12 +9,7 @@ class MainContainer extends Component {
     render () {
         return (
           <div>
-            <br></br>
-            Maincontainer for game is here!  ^_^
-            <br></br>
-            <p>Rows: {this.props.rows}</p>
-            <p>Columns: {this.props.columns}</p>
-
+            
           </div>
         )
     }
