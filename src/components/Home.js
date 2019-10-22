@@ -16,7 +16,7 @@ class Home extends Component {
               <Grid.Row>
                 <Grid.Column width={8}>
                   <Header as='h3' style={{ fontSize: '2em' }}>
-                    Welcome to Flipout! ^_^
+                    This is Flipout! ^_^
                   </Header>
                   <p style={{ fontSize: '1.33em' }}>
                       The pokemon are hiding and will only leave with their partners. Its your job to find and reunite them as quickly as possible! Do you have what it takes to catch them all?

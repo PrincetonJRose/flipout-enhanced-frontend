@@ -11,6 +11,11 @@ import MainContainer from './containers/MainContainer';
 
 class App extends Component {
 
+  componentDidMount() {
+    this.props.dispatch({ type: 'SET_CARD_BACKS' })
+    this.props.dispatch({ type: 'SET_THEME', theme: 'pokemon' })
+  }
+
   render () {
     return (
       <div className="App">
