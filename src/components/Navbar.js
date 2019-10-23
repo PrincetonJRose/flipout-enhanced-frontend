@@ -156,6 +156,7 @@ class Navbar extends Component {
                 }
               </Menu.Item>
             </Menu>
+            <br></br>
           </Grid.Column>
         )
     }

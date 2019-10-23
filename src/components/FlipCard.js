@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Container, Image } from 'semantic-ui-react'
+import { Container, Image, Card } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 import ReactCardFlip from 'react-card-flip'
 
@@ -18,13 +18,13 @@ class FlipCard extends Component {
   render () {
     return (
       <Container>
-        <div className="flip-card">
+        <div className="flip-card" align='center'>
           <ReactCardFlip isFlipped={this.props.card.isFlipped} flipDirection="horizontal">
             <div className="flip-card-front" onClick={this.handleClick} key="front">
-              <Image src={this.props.cardBack} size='small' />
+              <Image centered src={this.props.cardBack} size='small' />
             </div>
             <div className="flip-card-back" onClick={this.handleClick} key="back">
-              <Image src={this.props.card.image_url} wrapped />
+              <Image centered src={this.props.card.image_url} wrapped />
             </div>
           </ReactCardFlip>
         </div>
