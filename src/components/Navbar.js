@@ -19,9 +19,10 @@ class Navbar extends Component {
 
     createNewGame =()=> {
       getTheme(this.props.theme).then( data => {
-        this.props.dispatch({ type: 'SET_DECK_THEME', themeChosen: data }) 
+        this.props.dispatch({ type: 'SET_DECK_THEME', themeChosen: data })
         this.props.dispatch({ type: 'GENERATE_GAME_DECK' })
         this.props.dispatch({ type: 'RANDOM_CARD_BACK' })
+        this.props.dispatch({ type: 'RESET_GAME_STATS' })
       })
       this.setState({ newGameOpen: false }) 
     }
@@ -38,7 +39,7 @@ class Navbar extends Component {
               <Menu.Item name='flag checkered'>
                 <Icon name='flag checkered' />
                 <br></br>
-                <Modal id='newGameModal' trigger={<Button basic color='green' onClick={()=> this.setState({ newGameOpen: true }) }>New Game</Button>} centered={false} closeIcon open={this.state.newGameOpen} onClose={ ()=> this.setState({ newGameOpen: false }) } >
+                <Modal id='newGameModal' trigger={<Button basic color='green' onClick={()=> this.setState({ newGameOpen: true }) }>New Game</Button>} centered closeIcon open={this.state.newGameOpen} onClose={ ()=> this.setState({ newGameOpen: false }) } >
                   <Modal.Header>Create A New Game</Modal.Header>
                   <Modal.Content image>
                     <Image wrapped size='medium' src='https://i.pinimg.com/originals/25/57/36/25573650a72e7232ac940c18a5b7cb5e.png' />
@@ -94,7 +95,7 @@ class Navbar extends Component {
               <Menu.Item>
                 <Icon name='chart line' />
                 <br></br>
-                <Modal id='newGameModal' trigger={<Button basic color='orange'>Statistics</Button>} centered={false} closeIcon>
+                <Modal id='newGameModal' trigger={<Button basic color='orange'>Statistics</Button>} centered closeIcon>
                   <Modal.Header>{this.props.currentUser ?`${this.props.currentUser.username}'s Statistics` : <div>No User</div>}</Modal.Header>
                   <Modal.Content image>
                     <Image wrapped size='medium' src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSvwG149uDub3muJZQGjqtenTmPqp0hM0GMgokFB6t-8jI5tQFDFQ' />

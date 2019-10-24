@@ -8,11 +8,30 @@ export default (state = { decks: [], gameDeck: [], themes: [], numColumns: 4, nu
                 }
             }
         }
-        case 'RANDOM_CARD_BACK': {
-            let cardBackArray = state.cardBacks[state.theme]
+        case 'RESET_GAME_STATS': {
             return {
                 ...state,
-                cardBack: cardBackArray[Math.round(Math.random() * cardBackArray.length)]
+                gameStats: {
+                    misses: 0,
+                    combo: 0,
+                    comboChain: 0,
+                    turns: 0,
+                    win: false,
+                }
+            }
+        }
+        case 'RANDOM_CARD_BACK': {
+            let cardBackArray
+            while (!cardBackArray) {
+                cardBackArray = state.cardBacks[state.theme]
+            }
+            let cardBack
+            while (!cardBack) {
+                cardBack = cardBackArray[Math.round(Math.random() * cardBackArray.length)]
+            }
+            return {
+                ...state,
+                cardBack: cardBack,
             }
         }
         case 'SET_THEME': {

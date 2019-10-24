@@ -17,7 +17,7 @@ class FlipCard extends Component {
 
   render () {
     return (
-      <Container>
+      <Container align='center' centered >
         <div className="flip-card" align='center'>
           <ReactCardFlip isFlipped={this.props.card.isFlipped} flipDirection="horizontal">
             <div className="flip-card-front" onClick={this.handleClick} key="front">

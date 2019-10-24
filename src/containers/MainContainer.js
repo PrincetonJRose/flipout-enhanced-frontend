@@ -1,10 +1,12 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Link, Redirect } from 'react-router-dom'
-import { Button, Form, Grid, Header, Image, Message, Segment, Container, Icon, Statistic } from 'semantic-ui-react'
+import { Button, Form, Grid, Header, Image, Message, Segment, Container, Icon, Statistic, Modal } from 'semantic-ui-react'
 import FlipCard from '../components/FlipCard'
 
 class MainContainer extends Component {
+
+  state = { winModalOpen: false }
 
   checkGameProgress =()=> {
 
@@ -14,13 +16,26 @@ class MainContainer extends Component {
     this.props.dispatch({ type: 'FLIP_MATCHED_CARDS' })
   }
 
+  openWinModal =()=> {
+    this.setState({ winModalOpen: true })
+  }
+
     render () {
+      let stats = this.props.gameStats
       if (this.props.compare.length >= 2)
         setTimeout( this.flipMatchedCards, 1100)
+      if (stats.win)
+        this.openWinModal()
       if (this.props.gameDeck.length > 0) {
-        let stats = this.props.gameStats
         return (
           <Grid container verticalAlign='middle' columns={this.props.columns}>
+            <Modal centered={true} id='winGameModal' open={this.state.winModalOpen} closeIcon onClose={ ()=> {
+              this.setState({ winModalOpen: false })
+              this.props.dispatch({ type: 'RESET_GAME_STATS' })
+            } }  >
+              <Icon name='trophy' />
+
+            </Modal>
             <Grid.Row centered >
               <br></br>
               <Header as='h3' centered><u>Current Game Stats</u>:</Header>
@@ -28,20 +43,20 @@ class MainContainer extends Component {
             <Grid.Row centered >
               <Statistic.Group size='mini'>
                 <Statistic>
-                  <Statistic.Value>{stats.combo}</Statistic.Value>
                   <Statistic.Label>Current Combo</Statistic.Label>
+                  <Statistic.Value>{stats.combo}</Statistic.Value>
                 </Statistic>
                 <Statistic>
+                  <Statistic.Label>Highest Combo</Statistic.Label>
                   <Statistic.Value>{stats.comboChain}</Statistic.Value>
-                  <Statistic.Label>Highest Combo Chain</Statistic.Label>
                 </Statistic>
                 <Statistic>
-                  <Statistic.Value>{stats.turns}</Statistic.Value>
                   <Statistic.Label>Turns Taken</Statistic.Label>
+                  <Statistic.Value>{stats.turns}</Statistic.Value>
                 </Statistic>
                 <Statistic>
-                  <Statistic.Value>{stats.misses}</Statistic.Value>
                   <Statistic.Label>Misses</Statistic.Label>
+                  <Statistic.Value>{stats.misses}</Statistic.Value>
                 </Statistic>
               </Statistic.Group>
             </Grid.Row>
