@@ -17,7 +17,8 @@ export default (state = { decks: [], gameDeck: [], themes: [], numColumns: 4, nu
                     comboChain: 0,
                     turns: 0,
                     win: false,
-                }
+                },
+                gameDeck: [],
             }
         }
         case 'RANDOM_CARD_BACK': {

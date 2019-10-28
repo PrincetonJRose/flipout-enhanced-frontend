@@ -1,12 +1,10 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Link, Redirect } from 'react-router-dom'
-import { Button, Form, Grid, Header, Image, Message, Segment, Container, Icon, Statistic, Modal } from 'semantic-ui-react'
+import { Button, Form, Grid, Header, Image, Message, Segment, Container, Icon, Statistic, Modal, Transition } from 'semantic-ui-react'
 import FlipCard from '../components/FlipCard'
 
 class MainContainer extends Component {
-
-  state = { winModalOpen: false }
 
   checkGameProgress =()=> {
 
@@ -16,25 +14,26 @@ class MainContainer extends Component {
     this.props.dispatch({ type: 'FLIP_MATCHED_CARDS' })
   }
 
-  openWinModal =()=> {
-    this.setState({ winModalOpen: true })
-  }
-
     render () {
       let stats = this.props.gameStats
       if (this.props.compare.length >= 2)
         setTimeout( this.flipMatchedCards, 1100)
-      if (stats.win)
-        this.openWinModal()
       if (this.props.gameDeck.length > 0) {
         return (
           <Grid container verticalAlign='middle' columns={this.props.columns}>
-            <Modal centered={true} id='winGameModal' open={this.state.winModalOpen} closeIcon onClose={ ()=> {
-              this.setState({ winModalOpen: false })
+            <Modal centered id='winGameModal' open={stats.win} closeIcon onClose={ ()=> {
               this.props.dispatch({ type: 'RESET_GAME_STATS' })
             } }  >
-              <Icon name='trophy' />
-
+              <Modal.Header centered ><Icon floated='left' name='trophy' /> You win!!! <Icon name='trophy' /></Modal.Header>
+              <Modal.Content image>
+                <Image wrapped size='small' src='https://cdn.bulbagarden.net/upload/a/a7/PSMD_poster.png' />
+                <Modal.Description>
+                  <Header>Good job!</Header>
+                  <p>
+                    You were able to locate all of the pokemon and their partners! You should feel proud! Now its time to work on improving your skills for future pokemon who may need your assistance! <Icon name='smile' />
+                  </p>
+                </Modal.Description>
+              </Modal.Content>
             </Modal>
             <Grid.Row centered >
               <br></br>
@@ -71,7 +70,17 @@ class MainContainer extends Component {
         </Grid>
         )
       } else {
-        return null
+        return (
+          <Container centered >
+            <br></br>
+            <Segment centered raised>
+              <Header align='center'>
+                  <Icon className='up-arrow' name='arrow alternate circle up outline' />
+                Click on the New Game button to start!
+              </Header>
+            </Segment>
+          </Container>
+        )
       }
     }
 }
