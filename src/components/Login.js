@@ -28,6 +28,7 @@ class Login extends Component {
                 getUser(jwt_decode(data.jwt_token).user_id).then( userData => {
                     localStorage.setItem("jwt_token", data.jwt_token)
                     this.props.dispatch({ type: "SET_USER", user: userData })
+                    this.setState({ loading: false })
                 })
             }
         })
@@ -50,12 +51,12 @@ class Login extends Component {
                             <Form.Input fluid icon='user' iconPosition='left' placeholder='Username'
                             required />
                             <Form.Input
-                            fluid
-                            icon='lock'
-                            iconPosition='left'
-                            placeholder='Password'
-                            type='password'
-                            required
+                                fluid
+                                icon='lock'
+                                iconPosition='left'
+                                placeholder='Password'
+                                type='password'
+                                required
                             />
                 
                             <Button color='green' fluid size='large'>

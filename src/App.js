@@ -16,20 +16,17 @@ class App extends Component {
     this.props.dispatch({ type: 'SET_THEME', theme: 'pokemon' })
   }
 
-  render () {
-    return (
-      <div className="App">
-        <Navbar />
-        <Switch>
-          <Route exact path="/login" component={Login} />
-          <Route exact path='/register' component={Register} />
-          <Route exact path='/game' component={GameContainer} />
-          <Route exact path='/home' component={Home} />
-          <Route exact path='/' component={Home} />
-        </Switch>
-      </div>
-    );
-  }
+  render =()=>
+    <div className="App">
+      <Navbar />
+      <Switch>
+        <Route exact path="/login" component={Login} />
+        <Route exact path='/register' component={Register} />
+        <Route exact path='/game' component={GameContainer} />
+        <Route exact path='/home' component={Home} />
+        <Route exact path='/' component={Home} />
+      </Switch>
+    </div>
 }
 
 const mapStateToProps = state=>{
