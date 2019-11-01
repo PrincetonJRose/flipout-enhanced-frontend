@@ -1,10 +1,9 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Link, Redirect } from 'react-router-dom'
-import { Button, Form, Grid, Header, Image, Message, Segment, Container, Icon, Statistic, Modal } from 'semantic-ui-react'
+import { Grid, Header, Icon, Statistic, Modal } from 'semantic-ui-react'
 import FlipCard from '../components/FlipCard'
 
-class MainContainer extends Component {
+class GameContainer extends Component {
 
   state = { winModalOpen: false }
 
@@ -32,7 +31,7 @@ class MainContainer extends Component {
             <Modal centered={true} id='winGameModal' open={this.state.winModalOpen} closeIcon onClose={ ()=> {
               this.setState({ winModalOpen: false })
               this.props.dispatch({ type: 'RESET_GAME_STATS' })
-            } }  >
+            }} >
               <Icon name='trophy' />
 
             </Modal>
@@ -87,4 +86,4 @@ let mapStateToProps =(state)=> {
   }
 }
 
-export default connect(mapStateToProps)(MainContainer)
+export default connect(mapStateToProps)(GameContainer)
